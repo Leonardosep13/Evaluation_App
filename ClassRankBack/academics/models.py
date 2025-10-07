@@ -9,44 +9,68 @@ class Student(models.Model):
     strikes = models.SmallIntegerField("Materias Reprobadas", default=0)
 
     def __str__(self):
-        return f"{self.code} {self.first_name} {self.last_name} {self.special_attention} {self.strikes}"
-    
+        return f"{self.code} {self.first_name} {self.last_name}"
+
     class Meta:
         verbose_name = 'Estudiante'
         verbose_name_plural = 'Estudiantes'
 
+
 class Subject(models.Model):
     name_subject = models.CharField("Materia", unique=True, max_length=50)
     credits = models.FloatField("Valor de la materia")
-    qualified_teachers = models.ManyToManyField(settings.AUTH_USER_MODEL, through='TeacherQualification', related_name='qualified_teachers_link')
+    # related_name en el USER => user.qualified_subjects (más claro)
+    qualified_teachers = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        through='TeacherQualification',
+        related_name='qualified_subjects',
+        verbose_name='Profesores que imparten'
+    )
 
     def __str__(self):
-        return f"{self.name_subject} {self.credits} {self.qualified_teachers}"
-    
+        return f"{self.name_subject} ({self.credits})"
+
     class Meta:
         verbose_name = 'Materia'
         verbose_name_plural = 'Materias'
 
+
 class Section(models.Model):
-    term = models.CharField("Periodo", unique=True, max_length=6)
+    term = models.CharField("Periodo", max_length=6)  # removí unique=True
     schedule_start = models.TimeField("Hora de inicio")
     schedule_end = models.TimeField("Hora de finalizacion")
-    classrooms = models.CharField("Salon", unique=True, max_length=3, null=True)
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='sections', verbose_name="Materia")
-    teacher = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='sections', verbose_name='Profesor' )
+    classrooms = models.CharField("Salon", max_length=3, null=True)  # removí unique=True
+    # related_name='sections' -> subject.sections
+    subject = models.ForeignKey(
+        Subject,
+        on_delete=models.CASCADE,
+        related_name='sections',
+        verbose_name="Materia"
+    )
+    teacher = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='sections',  # user.sections -> secciones que imparte
+        verbose_name='Profesor'
+    )
 
     def __str__(self):
         teacher_name = f"{self.teacher.first_name} {self.teacher.last_name}" if self.teacher else "Profesor no asignado"
         schedule = f"{self.schedule_start} - {self.schedule_end}"
-        return f"{self.term} {self.classrooms} {schedule} {self.subject} {teacher_name}"
-    
+        return f"{self.term} | {self.classrooms} | {schedule} | {self.subject.name_subject} | {teacher_name}"
+
     class Meta:
         verbose_name = 'Seccion'
         verbose_name_plural = 'Secciones'
+        unique_together = [['term', 'classrooms', 'schedule_start']]
+
 
 class Enrollment(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='students', verbose_name='Alumno')
-    section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name='sections', verbose_name='Secciones')
+    # student.enrollments -> instancias de Enrollment para ese estudiante
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='enrollments', verbose_name='Alumno')
+    section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name='enrollments', verbose_name='Secciones')
     score = models.FloatField("Calificacion", blank=False, null=False)
     feedback = models.TextField("Retroalimentacion", blank=True, default="")
 
@@ -55,9 +79,19 @@ class Enrollment(models.Model):
         verbose_name_plural = 'Cursos'
         unique_together = [['student', 'section']]
 
+
 class TeacherQualification(models.Model):
-    teacher = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='qualifications', verbose_name= "Profesor", on_delete=models.CASCADE)
-    subject = models.ForeignKey(Subject, related_name='qualified_teachers_link', verbose_name='Materia', on_delete=models.CASCADE)
+    teacher = models.ForeignKey(settings.AUTH_USER_MODEL,
+        related_name='teacher_qualifications',  # user.teacher_qualifications -> instancias del through
+        verbose_name="Profesor que imparte",
+        on_delete=models.CASCADE
+    )
+    subject = models.ForeignKey(
+        Subject,
+        related_name='teacher_qualifications',  # subject.teacher_qualifications -> instancias del through
+        verbose_name='Materia',
+        on_delete=models.CASCADE
+    )
 
     class Meta:
         verbose_name = 'Materias asignada al profesor'

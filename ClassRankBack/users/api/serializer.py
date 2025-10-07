@@ -5,7 +5,7 @@ import re
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email_teacher', 'first_name', 'last_name', 'password', 'is_staff']
+        fields = ['username', 'email_teacher', 'first_name', 'last_name', 'password', 'is_staff']
     
     def validate_email_teacher(self, value):
         pattern = r'^[A-Za-z0-9._%+-]+@academicos\.udg\.mx$|^[A-Za-z0-9._%+-]+@sems\.udg\.mx$'
