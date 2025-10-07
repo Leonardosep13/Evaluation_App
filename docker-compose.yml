@@ -9,6 +9,8 @@ services:
       - ./ClassRankBack/.env
     ports:
       - "8000:8000"
+    volumes:
+      - ./ClassRankBack:/app
     environment:
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONUNBUFFERED=1
