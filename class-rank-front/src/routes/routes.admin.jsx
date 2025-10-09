@@ -1,5 +1,5 @@
 import { AdminLayout } from "../layouts/AdminLayout/AdminLayout"
-import { HomeAdmin } from "../pages/Admin/HomeAdmin"
+import { HomeAdmin, LoginAdmin} from "../pages/Admin"
 
 const routesAdmin = [
 

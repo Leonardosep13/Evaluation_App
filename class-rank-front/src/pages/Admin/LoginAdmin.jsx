@@ -1,9 +1,8 @@
 import React from 'react'
+import { LoginForm } from '../../components/Admin/LoginForm/LoginForm'
 
 export function LoginAdmin() {
   return (
-    <div>
-        <h1>Login Admin Page</h1>
-    </div>
+    <LoginForm />
   )
 }

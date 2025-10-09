@@ -1,8 +1,11 @@
 import React from 'react'
+import { LoginAdmin } from '../../pages/Admin'
 
 export function ClientLayout(props) {
-    
     const { children } = props
+    const auth = null
+
+    if (!auth) return <LoginAdmin />
 
   return (
     <div>
