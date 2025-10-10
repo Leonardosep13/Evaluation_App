@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
+import { loginApi } from '../../../api/user'
 import './LoginForm.css'
 
 export function LoginForm() {
   const [formData, setFormData] = useState({
-    email: '',
+    email_teacher: '',
     password: ''
   })
 
@@ -15,10 +16,10 @@ export function LoginForm() {
     }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log('Form submitted:', formData)
-    // Aquí implementarías la lógica de autenticación
+    const response = await loginApi(formData);
+    console.log(response);
   }
 
   return (
@@ -31,15 +32,15 @@ export function LoginForm() {
         
         <form onSubmit={handleSubmit} className="login-form">
           <div className="mb-4">
-            <label htmlFor="email" className="form-label">
+            <label htmlFor="email_teacher" className="form-label">
               Correo Electrónico
             </label>
             <input
               type="email"
               className="form-control custom-input"
-              id="email"
-              name="email"
-              value={formData.email}
+              id="email_teacher"
+              name="email_teacher"
+              value={formData.email_teacher}
               onChange={handleChange}
               placeholder="ejemplo@correo.com"
               required
