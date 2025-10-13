@@ -72,6 +72,7 @@ class Enrollment(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='enrollments', verbose_name='Alumno')
     section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name='enrollments', verbose_name='Secciones')
     score = models.FloatField("Calificacion", blank=False, null=False)
+    absences = models.SmallIntegerField("Faltas", default=0)
     feedback = models.TextField("Retroalimentacion", blank=True, default="")
 
     class Meta:

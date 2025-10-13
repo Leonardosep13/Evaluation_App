@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { loginApi } from '../../../api/user'
+import { loginApi } from '../../api/user'
+import { useAuth } from '../../hooks/useAuth'
 import './LoginForm.css'
 
 export function LoginForm() {
@@ -7,6 +8,10 @@ export function LoginForm() {
     email_teacher: '',
     password: ''
   })
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  
+  const { login, auth } = useAuth()
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -18,8 +23,27 @@ export function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const response = await loginApi(formData);
-    console.log(response);
+    setLoading(true)
+    setError('')
+    
+    try {
+      // Llamar a la API de login
+      const response = await loginApi(formData)
+      // Usar el contexto para hacer login
+      const result = await login(response)
+      
+      if (result.success) {
+        // Redirigir o mostrar éxito
+        console.log('Login exitoso ')
+      } else {
+        setError(result.error)
+      }
+    } catch (error) {
+      setError('Error al iniciar sesión usuario o contraseña incorrectos')
+      console.error('Error en handleSubmit:', error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -31,6 +55,12 @@ export function LoginForm() {
         </div>
         
         <form onSubmit={handleSubmit} className="login-form">
+          {error && (
+            <div className="alert alert-danger mb-3">
+              {error}
+            </div>
+          )}
+          
           <div className="mb-4">
             <label htmlFor="email_teacher" className="form-label">
               Correo Electrónico
@@ -44,6 +74,7 @@ export function LoginForm() {
               onChange={handleChange}
               placeholder="ejemplo@correo.com"
               required
+              disabled={loading}
             />
           </div>
 
@@ -60,6 +91,7 @@ export function LoginForm() {
               onChange={handleChange}
               placeholder="••••••••"
               required
+              disabled={loading}
             />
           </div>
 
@@ -72,8 +104,12 @@ export function LoginForm() {
             </div>
           </div>
 
-          <button type="submit" className="btn custom-btn-primary w-100 mb-3">
-            Iniciar Sesión
+          <button 
+            type="submit" 
+            className="btn custom-btn-primary w-100 mb-3"
+            disabled={loading}
+          >
+            {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
           </button>
 
           <div className="text-center">

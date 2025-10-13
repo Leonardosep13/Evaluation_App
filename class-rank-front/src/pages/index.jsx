@@ -1,3 +1,2 @@
-export * from './Admin';
-export * from './error404';
-export * from './Client';
+export * from './HomeAdmin';
+export *from './LoginAdmin';
