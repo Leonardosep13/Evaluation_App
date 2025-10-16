@@ -5,7 +5,9 @@ from academics.api.views import (
     EnrollmentApiViewSet,
     SubjectApiViewSet,
     SectionApiViewSet,
-    TeacherQualificationApiViewSet
+    TeacherQualificationApiViewSet,
+    FormDataAPIView,
+    QualifiedTeachersAPIView
 )
 
 router = DefaultRouter()
@@ -18,6 +20,8 @@ router.register(r'teacher-qualifications', TeacherQualificationApiViewSet, basen
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('form-data/', FormDataAPIView.as_view(), name='form-data'),
+    path('qualified-teachers/<int:subject_id>/', QualifiedTeachersAPIView.as_view(), name='qualified-teachers'),
 ]
 
 
