@@ -5,3 +5,4 @@ drf_yasg
 pytz
 django-environ
 psycopg2
+django-cors-headers

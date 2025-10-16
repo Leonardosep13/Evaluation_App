@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-import environ
 import os
+import datetime
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,20 +41,24 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users.apps.UsersConfig',
     'rest_framework',
+    'corsheaders',
     'drf_yasg',
     'academics'
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ]
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
 }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -84,22 +88,29 @@ WSGI_APPLICATION = 'ClassRankBack.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+# env = environ.Env()
+# environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
+# En settings.py, comentar la configuración de Postgres y usar:
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": env("DB_NAME"),
-        "USER": env("DB_USER"),
-        "PASSWORD": env("DB_PASSWORD"),
-        "HOST": env("DB_HOST"),
-        "PORT": env("DB_PORT"),
-        "OPTIONS": {
-            "sslmode": env("DB_SSLMODE", default="require"),
-        },
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+#DATABASES = {
+ #   "default": {
+  #      "ENGINE": "django.db.backends.postgresql",
+   #     "USER": env("DB_USER"),
+    #    "PASSWORD": env("DB_PASSWORD"),
+     #   "HOST": env("DB_HOST"),
+       # "PORT": env("DB_PORT"),
+      #  "OPTIONS": {
+        #    "sslmode": env("DB_SSLMODE", default="require"),
+        #},
+    #}
+#}
 
 
 # Password validation
@@ -142,4 +153,14 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#USERS 
 AUTH_USER_MODEL = 'users.User'
+
+# CORS settings
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=160)
+}
