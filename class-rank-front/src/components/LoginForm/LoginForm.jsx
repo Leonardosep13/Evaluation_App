@@ -27,17 +27,8 @@ export function LoginForm() {
     setError('')
     
     try {
-      // Llamar a la API de login
       const response = await loginApi(formData)
-      // Usar el contexto para hacer login
-      const result = await login(response)
-      
-      if (result.success) {
-        // Redirigir o mostrar éxito
-        console.log('Login exitoso ')
-      } else {
-        setError(result.error)
-      }
+      login(response)
     } catch (error) {
       setError('Error al iniciar sesión usuario o contraseña incorrectos')
       console.error('Error en handleSubmit:', error)
