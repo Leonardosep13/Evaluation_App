@@ -3,4 +3,5 @@ export * from './LoginAdmin';
 export * from './Teachers';
 export * from './Subjects';
 export * from './Sections';
-export * from './Estudiantes';
+export * from './Students';
+export * from './SubjectAssigments';
