@@ -1,5 +1,5 @@
 import { AdminLayout } from "../layouts/AdminLayout/AdminLayout"
-import { HomeAdmin, Profesores, Materias, Secciones, Estudiantes } from "../pages"
+import { HomeAdmin, Profesores, Materias, Secciones, SubjectAssigments, Students } from "../pages"
 
 const routesAdmin = [
     {
@@ -25,8 +25,13 @@ const routesAdmin = [
     {
         path: "/admin/students",
         layout: AdminLayout,
-        component: Estudiantes,
-    }
+        component: Students,
+    },
+    {
+        path: "/admin/subject-assignments",
+        layout: AdminLayout,
+        component: SubjectAssigments,
+    },
 ]
 
 export default routesAdmin
