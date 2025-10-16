@@ -6,3 +6,4 @@ pytz
 django-environ
 psycopg2
 django-cors-headers
+django-filter
