@@ -81,3 +81,52 @@ export async function getUsersApi(token)
         throw error;
     }
 }
+
+export async function createUserApi(token, formValue)
+{
+    try{
+        const url = `${BASE_API}/users/`;
+        const params = {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(formValue),
+        };
+        const response = await fetch(url, params);
+
+        if (response.status !== 201){
+            const result = await response.json();
+            throw result;
+        }
+        const result = await response.json();
+        return result;
+    }
+    catch (error){
+        throw error;
+    }
+}
+
+export async function deleteUserApi(token, userId)
+{
+    try{
+        const url = `${BASE_API}/users/${userId}/`;
+        const params = {
+            method: "DELETE",
+            headers: {
+                "content-type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        const response = await fetch(url, params);
+        if (response.status !== 204){
+            const result = await response.json();
+            throw result;
+        }
+        return true;
+    }
+    catch (error){
+        throw error;
+    }
+}
