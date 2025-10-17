@@ -1,4 +1,4 @@
-import { getMeApi, getUsersApi } from '../api/user';
+import { getMeApi, getUsersApi, createUserApi, deleteUserApi } from '../api/user';
 import { useState } from 'react';
 import { useAuth } from './useAuth';
 
@@ -20,6 +20,7 @@ export function useUser() {
     const getUsers = async () => {
         try {
             setLoading(true);
+            setError(null);
             const response = await getUsersApi(auth.token.access);
             setUsers(response);
             setLoading(false);
@@ -29,11 +30,44 @@ export function useUser() {
         }
     };
 
+    const createUser = async (formValue) => {
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await createUserApi(auth.token.access, formValue);
+            setLoading(false);
+            getUsers();
+            return response;
+        } catch (error) {
+            setError(error);
+            setLoading(false);
+            throw error;
+        }
+    };
+
+    const deleteUser = async (userId) => {
+        try{
+            setLoading(true);
+            setError(null);
+            const response = await deleteUserApi(auth.token.access, userId);
+            setLoading(false);
+            getUsers();
+            return response;
+        }
+        catch (error){
+            setError(error);
+            setLoading(false);
+            throw error;
+        }
+    };
+
     return {
         loading,
         error,
         users,
         getMeData,
         getUsers,
+        createUser,
+        deleteUser,
     };
 }
