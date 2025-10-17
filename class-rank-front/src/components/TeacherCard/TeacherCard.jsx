@@ -3,11 +3,26 @@ import { Card, Row, Col, Spinner, Alert, Badge } from 'react-bootstrap';
 import { useUser } from '../../hooks/useUser';
 
 export function TeacherCard() {
-    const { users, loading, error, getUsers } = useUser();
+    const { users, loading, error, getUsers, deleteUser } = useUser();
 
     useEffect(() => {
         getUsers();
     }, []);
+
+    const handleDeleteUser = async (userId) => {
+        const confirmDelete = window.confirm(
+            '¿Estás seguro de que deseas eliminar este profesor? Esta acción no se puede deshacer.'
+        );
+        
+        if (confirmDelete) {
+            try {
+                await deleteUser(userId);
+            } catch (error) {
+                console.error('Error al eliminar profesor:', error);
+                alert('Error al eliminar el profesor. Por favor, inténtalo de nuevo.');
+            }
+        }
+    };
 
     if (loading) {
         return (
@@ -136,6 +151,7 @@ export function TeacherCard() {
                                 <button 
                                     className="btn btn-outline-danger btn-sm"
                                     title="Eliminar profesor"
+                                    onClick={() => handleDeleteUser(teacher.id)}
                                 >
                                     <i className="bi bi-trash"></i>
                                 </button>
