@@ -1,0 +1,54 @@
+/* Estilos para el formulario de actualización de profesores */
+.teacher-form {
+    padding: 1rem 0;
+}
+
+.teacher-form .form-label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #495057;
+}
+
+.teacher-form .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.teacher-form .form-control.is-invalid:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.teacher-form .form-text {
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.teacher-form .form-check {
+    margin-top: 0.5rem;
+}
+
+.teacher-form .form-check-label {
+    font-weight: 500;
+    margin-left: 0.5rem;
+}
+
+.teacher-form .invalid-feedback {
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.teacher-form .alert {
+    border: none;
+    border-radius: 0.5rem;
+}
+
+.teacher-form .spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+.teacher-form .form-control:disabled {
+    background-color: #f8f9fa;
+    color: #6c757d;
+}

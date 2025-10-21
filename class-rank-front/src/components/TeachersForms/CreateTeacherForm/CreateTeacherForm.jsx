@@ -5,10 +5,11 @@ import {
     validateTeacherForm, 
     processTeacherFormData, 
     processFieldValue 
-} from '../../utils/validations/FormsValidator';
+} from '../../../utils/validations/FormsValidator';
 import './CreateTeacherForm.css';
 
-export function CreateTeacherForm({ onSubmit, loading, error }) {
+export function CreateTeacherForm(props) {
+    const { onSubmit, loading, error, teacher } = props;
     const [formData, setFormData] = useState({
         first_name: '',
         last_name: '',

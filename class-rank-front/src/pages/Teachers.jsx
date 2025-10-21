@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Row, Col, Alert } from 'react-bootstrap';
 import { PageHeader, BasicModal } from '../components/common';
 import { TeacherCard} from '../components/TeacherCard';
-import { CreateTeacherForm } from '../components/CreateTeacherForm';
+import { CreateTeacherForm } from '../components/TeachersForms/CreateTeacherForm';
 import { useUser } from '../hooks/useUser';
 
 export function Profesores() {
@@ -20,6 +20,7 @@ export function Profesores() {
     try {
       await createUser(formData);
       setSuccess(true);
+      getUsers();
       setTimeout(() => {
         handleCloseModal();
       }, 2000);

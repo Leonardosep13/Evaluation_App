@@ -1,0 +1,139 @@
+/* Estilos personalizados para GenericAlert */
+
+/* Container principal */
+.swal-container {
+  z-index: 9999;
+}
+
+/* Popup principal */
+.swal-popup {
+  border-radius: 12px !important;
+  border: 1px solid #e9ecef;
+  max-width: 500px;
+  margin: 0 20px;
+}
+
+/* Header */
+.swal-header {
+  padding: 20px 20px 10px 20px;
+}
+
+/* Título */
+.swal-title {
+  font-size: 1.25rem !important;
+  margin: 0 0 10px 0 !important;
+  color: #212529 !important;
+  font-weight: 600 !important;
+}
+
+/* Contenido */
+.swal-content {
+  padding: 0 20px 20px 20px;
+}
+
+/* Texto del contenido */
+.swal-text {
+  font-size: 0.95rem !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+  color: #6c757d !important;
+}
+
+/* Acciones (botones) */
+.swal-actions {
+  padding: 15px 20px 20px 20px !important;
+  margin: 0 !important;
+}
+
+/* Iconos personalizados */
+.swal2-icon {
+  border: none !important;
+  margin: 20px auto 15px auto !important;
+}
+
+/* Icono de advertencia */
+.swal2-icon.swal2-warning {
+  border-color: #ffc107 !important;
+  color: #ffc107 !important;
+}
+
+.swal2-icon.swal2-warning .swal2-icon-content {
+  color: #ffc107 !important;
+  font-weight: bold !important;
+}
+
+/* Icono de éxito */
+.swal2-icon.swal2-success {
+  border-color: #198754 !important;
+}
+
+.swal2-icon.swal2-success [class^='swal2-success-line'] {
+  background-color: #198754 !important;
+}
+
+.swal2-icon.swal2-success .swal2-success-ring {
+  border-color: #198754 !important;
+}
+
+/* Icono de error */
+.swal2-icon.swal2-error {
+  border-color: #dc3545 !important;
+}
+
+.swal2-icon.swal2-error .swal2-x-mark {
+  color: #dc3545 !important;
+}
+
+/* Icono de info */
+.swal2-icon.swal2-info {
+  border-color: #0dcaf0 !important;
+  color: #0dcaf0 !important;
+}
+
+/* Icono de pregunta */
+.swal2-icon.swal2-question {
+  border-color: #6f42c1 !important;
+  color: #6f42c1 !important;
+}
+
+/* Hover effects para botones */
+.swal-actions .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Animaciones suaves */
+.swal-popup {
+  transition: all 0.3s ease;
+}
+
+/* Progress bar del timer */
+.swal2-timer-progress-bar {
+  background: rgba(0, 123, 255, 0.75) !important;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .swal-popup {
+    margin: 0 10px;
+    max-width: calc(100% - 20px);
+  }
+  
+  .swal-title {
+    font-size: 1.1rem !important;
+  }
+  
+  .swal-text {
+    font-size: 0.9rem !important;
+  }
+  
+  .swal-actions .btn {
+    width: 100%;
+  }
+}
+
+/* Overlay personalizado */
+.swal2-container {
+  background: rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(2px);
+}

@@ -130,3 +130,28 @@ export async function deleteUserApi(token, userId)
         throw error;
     }
 }
+
+export async function updateUserApi(token, userId, formValue)
+{
+    try{
+        const url = `${BASE_API}/users/${userId}/`;
+        const params = {
+            method: "PUT",
+            headers: {
+                "content-type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(formValue),
+        };
+        const response = await fetch(url, params);
+        if (response.status !== 200){
+            const result = await response.json();
+            throw result;
+        }
+        const result = await response.json();
+        return result;
+    }
+    catch (error){
+        throw error;
+    }
+}
