@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2'
 import './GenericAlert.css'
 
-export async function GenericAlert(props) {
+export function GenericAlert(props) {
   const { 
     title, 
     text, 
@@ -14,7 +14,7 @@ export async function GenericAlert(props) {
   } = props;
 
   try {
-    const result = await Swal.fire({
+    const result = Swal.fire({
       title: title,
       text: text,
       icon: icon,
@@ -45,7 +45,6 @@ export async function GenericAlert(props) {
   }
 }
 
-// Función helper para determinar la clase del botón según el tipo de icono
 function getButtonClass(icon) {
   switch (icon) {
     case 'success':
@@ -92,4 +91,4 @@ export const InfoAlert = (title, text) => GenericAlert({
   text,
   icon: 'info',
   confirmButtonText: 'Entendido'
-});
+});3
