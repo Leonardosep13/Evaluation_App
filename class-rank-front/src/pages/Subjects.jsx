@@ -1,15 +1,44 @@
-import React from 'react';
-import { PageHeader } from '../components/common';
+import { useState } from 'react';
+import { PageHeader, BasicModal } from '../components/common';
+import { Row, Col, Button } from 'react-bootstrap';
 
 export function Materias() {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
   return (
+  <div>
     <PageHeader
       icon="bi-journal-text"
       title="Gestión de Materias"
       cardTitle="Lista de Materias"
-      description="Aquí se mostrará la lista de materias y las opciones para gestionarlas."
     >
-      {/* Aquí irá el contenido de gestión de materias */}
+        <Row className="mb-3">
+          <Col className="d-flex justify-content-end">
+            <Button
+              variant="primary"
+              onClick={handleShowModal}
+              className="shadow-sm"
+            >
+              <i className="bi bi-person-plus me-2"></i>
+              Registrar Nueva Materia
+            </Button>
+          </Col>
+        </Row>
+        
     </PageHeader>
+
+    <BasicModal
+        title="Registrar Nueva Materia"
+        show={showModal}
+        handleClose={handleCloseModal}
+        actionButtonDescription="Registrar"
+        size="lg"
+        >
+
+        </BasicModal>
+  </div>  
   );
 }
