@@ -1,18 +1,5 @@
-Option 1 – Using Docker:
-You can start both the backend and the frontend by simply running:
+You can start both the backend and the frontend by simply running these commands in two different consoles:
 
-"docker compose up"
+Backend: cd ClassRankBack, pip install -r requirements.txt, python manage.py runserver,
 
-(Make sure you have Docker Desktop installed for this option.)
-
-Option 2 – Running Locally:
-
-Backend:
-cd ClassRankBack
-pip install -r requirements.txt
-python manage.py runserver
-
-Frontend:
-cd classrankfront
-yarn install
-yarn start
+Frontend: cd classrankfront, pnpm install, pnpm dev,
