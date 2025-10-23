@@ -36,7 +36,6 @@ export function useUser() {
             setError(null);
             const response = await createUserApi(auth.token.access, formValue);
             setLoading(false);
-            getUsers();
             return response;
         } catch (error) {
             setError(error);
@@ -51,7 +50,6 @@ export function useUser() {
             setError(null);
             const response = await deleteUserApi(auth.token.access, userId);
             setLoading(false);
-            getUsers();
             return response;
         }
         catch (error){
