@@ -18,17 +18,17 @@ class Student(models.Model):
 
 class Subject(models.Model):
     name_subject = models.CharField("Materia", unique=True, max_length=50)
-    credits = models.FloatField("Valor de la materia")
-    # related_name en el USER => user.qualified_subjects (más claro)
+    semester = models.SmallIntegerField("Semestre", blank=True, null=True)
     qualified_teachers = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
         through='TeacherQualification',
         related_name='qualified_subjects',
-        verbose_name='Profesores que imparten'
+        verbose_name='Profesores que imparten',
+        null=True,
     )
 
     def __str__(self):
-        return f"{self.name_subject} ({self.credits})"
+        return f"{self.name_subject} "
 
     class Meta:
         verbose_name = 'Materia'
