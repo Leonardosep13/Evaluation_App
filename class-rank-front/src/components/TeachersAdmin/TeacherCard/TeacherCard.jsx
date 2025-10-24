@@ -3,7 +3,7 @@ import { Card, Row, Col, Spinner, Alert, Badge } from 'react-bootstrap';
 import BasicModal from '../../common/Modal';
 import { UpdateTeacherForm } from '../TeachersForms/UpdateTeacherForm';
 import { DeleteAlert } from '../../Alerts/DeleteAlert/DeleteAlert';
-import { ErrorAlert } from '../../Alerts/GenericAlert/GenericAlert';
+import { ErrorAlert, SuccessAlert } from '../../Alerts/GenericAlert/GenericAlert';
 
 export function TeacherCard(props) {
     const { users, loading, error, onDeleteUser, onUpdateUser } = props;
@@ -15,21 +15,35 @@ export function TeacherCard(props) {
             const confirmDelete = await DeleteAlert({
                 title: '¿Estás seguro de eliminar este profesor?',
                 text: 'Esta acción no se puede deshacer.',
-                icon: 'warning',
-                ConfirmTitle: 'Profesor eliminado',
-                ConfirmText: 'El profesor ha sido eliminado exitosamente.',
-                ConfirmIcon: 'success',
+                icon: 'warning'
             });
             
             if (confirmDelete) {
+                // Intentar eliminar el usuario
                 await onDeleteUser(userId);
+                
+                // Si llegamos aquí, la eliminación fue exitosa
+                SuccessAlert(
+                    'Profesor eliminado',
+                    'El profesor ha sido eliminado exitosamente.',
+                    2000
+                );
             }
         } catch (error) {
             console.error('Error al eliminar profesor:', error);
-            ErrorAlert(
-                'Error',
-                'Error al eliminar el profesor. Por favor, inténtalo de nuevo.'
-            );
+            
+            // Analizar el tipo de error para mostrar un mensaje más específico
+            let errorMessage = 'Error al eliminar el profesor. Por favor, inténtalo de nuevo.';
+            
+            if (error.detail) {
+                errorMessage = error.detail;
+            } else if (error.message) {
+                errorMessage = error.message;
+            } else if (typeof error === 'string') {
+                errorMessage = error;
+            }
+            
+            ErrorAlert('Error al eliminar', errorMessage);
         }
     };
 
