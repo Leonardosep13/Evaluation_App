@@ -1,12 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PageHeader, BasicModal } from '../components/common';
 import { Row, Col, Button } from 'react-bootstrap';
+import { useSubject } from '../hooks/useSubject';
+import { SubjectCard } from '../components/SubjectsAdmin/SubjectCard';
 
 export function Materias() {
   const [showModal, setShowModal] = useState(false);
-
+  const {subjects, loading, error, getSubjects} = useSubject();
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
+
+  useEffect(() => {
+    getSubjects();
+  }, []);
 
   return (
   <div>
@@ -22,11 +28,17 @@ export function Materias() {
               onClick={handleShowModal}
               className="shadow-sm"
             >
-              <i className="bi bi-person-plus me-2"></i>
+              <i className="bi bi-journal-plus me-2"></i>
               Registrar Nueva Materia
             </Button>
           </Col>
         </Row>
+        
+        <SubjectCard
+          subjects={subjects}
+          loading={loading}
+          error={error}
+        />
         
     </PageHeader>
 
