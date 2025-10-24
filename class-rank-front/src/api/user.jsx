@@ -120,13 +120,26 @@ export async function deleteUserApi(token, userId)
             },
         };
         const response = await fetch(url, params);
+        
         if (response.status !== 204){
             const result = await response.json();
-            throw result;
+            
+        if (response.status === 400) {
+            throw new Error(result.detail || result.message || 'No se puede eliminar este usuario');
+        } 
+        else if (response.status === 404) {
+            throw new Error('El usuario no existe');
+            } 
+        else {
+            throw new Error(result.detail || result.message || 'Error del servidor');
+            }
         }
         return true;
     }
     catch (error){
+        if (error instanceof TypeError) {
+            throw new Error('Error de conexión. Verifica tu conexión a internet.');
+        }
         throw error;
     }
 }
