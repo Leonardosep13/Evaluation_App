@@ -8,12 +8,12 @@ from datetime import datetime
 class SubjectShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
-        fields = ['id', 'name_subject', 'credits']
+        fields = ['id', 'name_subject', 'semester']
 
 class SubjectCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
-        fields = ['id', 'name_subject', 'credits']
+        fields = ['id', 'name_subject', 'semester']
 
     def validate_name_subject(self, value):
         if not value or not value.strip():
@@ -32,18 +32,6 @@ class SubjectCreateSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError('Ya existe una materia con este nombre')
         
         return value_clean
-
-    def validate_credits(self, value):
-        if value is None:
-            raise serializers.ValidationError('Los créditos son requeridos')
-        
-        if value <= 0:
-            raise serializers.ValidationError('Los créditos deben ser un número positivo')
-        
-        if value > 20:
-            raise serializers.ValidationError('Los créditos no pueden exceder 20')
-        
-        return value
 
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -142,12 +130,9 @@ class TeacherQualificationSerializer(serializers.ModelSerializer):
         return qualification
 
 class SubjectSerializer(serializers.ModelSerializer):
-    # devolvemos las instancias del through (teacher + subject)
-    teacher_qualifications = TeacherQualificationSerializer(many=True, read_only=True)
-
     class Meta:
         model = Subject
-        fields = ['id', 'name_subject', 'credits', 'teacher_qualifications']
+        fields = ['id', 'name_subject', 'semester']
 
 
 class SectionSerializer(serializers.ModelSerializer):
