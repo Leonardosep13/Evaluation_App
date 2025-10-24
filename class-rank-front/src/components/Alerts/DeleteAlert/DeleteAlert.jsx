@@ -2,7 +2,15 @@ import Swal from 'sweetalert2'
 import './DeleteAlert.css'
 
 export async function DeleteAlert(props) {
-  const { title, text, icon, ConfirmTitle, ConfirmText, ConfirmIcon } = props;
+  const { 
+    title, 
+    text, 
+    icon, 
+    ConfirmTitle, 
+    ConfirmText, 
+    ConfirmIcon,
+    showSuccessAlert = true 
+  } = props;
   
   try {
     const swalWithBootstrapButtons = Swal.mixin({
@@ -38,26 +46,7 @@ export async function DeleteAlert(props) {
       reverseButtons: true
     });
 
-    // Verificar explícitamente si fue confirmado
-    if (result.isConfirmed === true) {
-      await swalWithBootstrapButtons.fire({
-        title: ConfirmTitle,
-        text: ConfirmText,
-        icon: ConfirmIcon,
-        confirmButtonText: 'Entendido',
-        customClass: {
-          confirmButton: 'btn btn-success px-4'
-        },
-        timer: 2000,
-        timerProgressBar: true,
-        allowOutsideClick: false,
-        allowEscapeKey: false
-      });
-      return true;
-    }
-    
-    // Si fue cancelado o cerrado de cualquier otra forma
-    return false;
+    return result.isConfirmed === true;
     
   } catch (error) {
     console.error('Error en DeleteAlert:', error);
