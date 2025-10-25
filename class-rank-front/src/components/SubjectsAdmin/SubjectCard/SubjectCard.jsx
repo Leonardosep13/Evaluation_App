@@ -1,10 +1,59 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Row, Col, Spinner, Alert, Badge } from 'react-bootstrap';
 import './SubjectCard.css';
+import { DeleteAlert } from '../../Alerts/DeleteAlert/DeleteAlert';
+import { ErrorAlert, SuccessAlert } from '../../Alerts/GenericAlert/GenericAlert';
+import BasicModal from '../../common/Modal';
+import { UpdateSubjectForm } from '../SubjectsForms/UpdateSubjectForm/UpdateSubjectForm';
 
 export function SubjectCard(props) {
-    const { subjects, loading, error } = props;
-    console.log('Subjects in SubjectCard:', subjects);
+    const { subjects, loading, error, onDeleteSubject, onUpdateSubject } = props;
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [selectedSubject, setSelectedSubject] = useState(null);
+
+    const handleDeleteSubject = async (subjectId) => {
+        try {
+            const confirmDelete = await DeleteAlert({
+                title: '¿Estás seguro de eliminar esta materia?',
+                text: 'Esta acción no se puede deshacer.',
+                icon: 'warning'
+            });
+
+            if (confirmDelete) {
+                await onDeleteSubject(subjectId);
+                SuccessAlert(
+                    'Materia eliminada',
+                    'La materia ha sido eliminada exitosamente.',
+                    2000
+                );
+            }
+        } catch (error) {
+            let errorMessage = 'Error al eliminar la materia. Por favor, inténtalo de nuevo.';
+            if (error.detail) {
+                errorMessage = error.detail;
+            } else if (error.message) {
+                errorMessage = error.message;
+            } else if (typeof error === 'string') {
+                errorMessage = error;
+            }  
+            ErrorAlert('Error al eliminar', errorMessage);
+        }
+    };
+
+    const handleUpdateSubject = (subject) => {
+        setSelectedSubject(subject);
+        setShowEditModal(true);
+    }
+
+    const handleCloseEditModal = () => {
+        setShowEditModal(false);
+        setSelectedSubject(null);
+    };
+
+    const handleUpdateSuccess = () => {
+        handleCloseEditModal();
+        onUpdateSubject();
+    };
 
     if (loading) {
         return (
@@ -44,8 +93,9 @@ export function SubjectCard(props) {
     };
 
     return (
-        <Row className="g-3">
-            {subjects.map((subject) => (
+        <>
+            <Row className="g-3">
+                {subjects.map((subject) => (
                 <Col key={subject.id} xs={12} md={6} lg={4}>
                     <Card className="h-100 shadow-sm border-0">
                         <Card.Header className="bg-primary text-white d-flex align-items-center">
@@ -92,14 +142,14 @@ export function SubjectCard(props) {
                                 <button 
                                     className="btn btn-outline-primary btn-sm me-2"
                                     title="Editar materia"
-                                    onClick={() => console.log('Editar materia:', subject.id)}
+                                    onClick={() => handleUpdateSubject(subject)}
                                 >
                                     <i className="bi bi-pencil"></i>
                                 </button>
                                 <button 
                                     className="btn btn-outline-danger btn-sm"
                                     title="Eliminar materia"
-                                    onClick={() => console.log('Eliminar materia:', subject.id)}
+                                    onClick={() => handleDeleteSubject(subject.id)}
                                 >
                                     <i className="bi bi-trash"></i>
                                 </button>
@@ -107,7 +157,24 @@ export function SubjectCard(props) {
                         </Card.Footer>
                     </Card>
                 </Col>
-            ))}
-        </Row>
+                ))}
+            </Row>
+
+            {/* Modal para editar materia */}
+            <BasicModal
+                title="Editar Materia"
+                show={showEditModal}
+                handleClose={handleCloseEditModal}
+                showActionButton={false}
+            >
+                {selectedSubject && (
+                    <UpdateSubjectForm 
+                        subject={selectedSubject}
+                        onSuccess={handleUpdateSuccess}
+                        onCancel={handleCloseEditModal}
+                    />
+                )}
+            </BasicModal>
+        </>
     );
 }
