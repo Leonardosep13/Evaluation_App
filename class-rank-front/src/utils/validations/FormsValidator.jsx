@@ -252,3 +252,146 @@ export const processEditTeacherFormData = (formData) => {
 
     return processedData;
 };
+
+// ========== SUBJECT VALIDATION FUNCTIONS ==========
+
+export const validateSubjectField = (name, value, formData = {}) => {
+    let error = '';
+
+    switch (name) {
+        case 'name_subject':
+            if (!value || !value.trim()) {
+                error = 'El nombre de la materia es requerido';
+            } else if (value.trim().length < 3) {
+                error = 'El nombre debe tener al menos 3 caracteres';
+            } else if (value.trim().length > 50) {
+                error = 'El nombre no puede exceder 50 caracteres';
+            } else if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s0-9\-\.]+$/.test(value)) {
+                error = 'El nombre solo puede contener letras, números, espacios, guiones y puntos';
+            }
+            break;
+        case 'semester':
+            if (!value) {
+                error = 'El semestre es requerido';
+            } else {
+                const semesterNum = parseInt(value);
+                if (isNaN(semesterNum) || semesterNum < 1 || semesterNum > 10) {
+                    error = 'El semestre debe ser un número entre 1 y 10';
+                }
+            }
+            break;
+    }
+
+    return error;
+};
+
+export const validateSubjectForm = (formData) => {
+    const errors = {};
+
+    // Validar nombre de materia
+    if (!formData.name_subject || !formData.name_subject.trim()) {
+        errors.name_subject = 'El nombre de la materia es requerido';
+    } else if (formData.name_subject.trim().length < 3) {
+        errors.name_subject = 'El nombre debe tener al menos 3 caracteres';
+    } else if (formData.name_subject.trim().length > 50) {
+        errors.name_subject = 'El nombre no puede exceder 50 caracteres';
+    } else if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s0-9\-\.]+$/.test(formData.name_subject)) {
+        errors.name_subject = 'El nombre solo puede contener letras, números, espacios, guiones y puntos';
+    }
+
+    // Validar semestre
+    if (!formData.semester) {
+        errors.semester = 'El semestre es requerido';
+    } else {
+        const semesterNum = parseInt(formData.semester);
+        if (isNaN(semesterNum) || semesterNum < 1 || semesterNum > 6) {
+            errors.semester = 'El semestre debe ser un número entre 1 y 6';
+        }
+    }
+
+    return errors;
+};
+
+export const processSubjectFormData = (formData) => {
+    return {
+        name_subject: formData.name_subject.trim(),
+        semester: parseInt(formData.semester)
+    };
+};
+
+export const processSubjectFieldValue = (name, value, type) => {
+    switch (name) {
+        case 'name_subject':
+            return value;
+        case 'semester':
+            return value;
+        default:
+            return value;
+    }
+};
+
+// ========== SUBJECT EDIT VALIDATION FUNCTIONS ==========
+
+export const validateEditSubjectField = (name, value, formData = {}) => {
+    let error = '';
+
+    switch (name) {
+        case 'name_subject':
+            if (!value || !value.trim()) {
+                error = 'El nombre de la materia es requerido';
+            } else if (value.trim().length < 3) {
+                error = 'El nombre debe tener al menos 3 caracteres';
+            } else if (value.trim().length > 50) {
+                error = 'El nombre no puede exceder 50 caracteres';
+            } else if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s0-9\-\.]+$/.test(value)) {
+                error = 'El nombre solo puede contener letras, números, espacios, guiones y puntos';
+            }
+            break;
+        case 'semester':
+            if (!value) {
+                error = 'El semestre es requerido';
+            } else {
+                const semesterNum = parseInt(value);
+                if (isNaN(semesterNum) || semesterNum < 1 || semesterNum > 6) {
+                    error = 'El semestre debe ser un número entre 1 y 10';
+                }
+            }
+            break;
+    }
+
+    return error;
+};
+
+export const validateEditSubjectForm = (formData) => {
+    const errors = {};
+
+    // Validar nombre de materia
+    if (!formData.name_subject || !formData.name_subject.trim()) {
+        errors.name_subject = 'El nombre de la materia es requerido';
+    } else if (formData.name_subject.trim().length < 3) {
+        errors.name_subject = 'El nombre debe tener al menos 3 caracteres';
+    } else if (formData.name_subject.trim().length > 50) {
+        errors.name_subject = 'El nombre no puede exceder 50 caracteres';
+    } else if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s0-9\-\.]+$/.test(formData.name_subject)) {
+        errors.name_subject = 'El nombre solo puede contener letras, números, espacios, guiones y puntos';
+    }
+
+    // Validar semestre
+    if (!formData.semester) {
+        errors.semester = 'El semestre es requerido';
+    } else {
+        const semesterNum = parseInt(formData.semester);
+        if (isNaN(semesterNum) || semesterNum < 1 || semesterNum > 10) {
+            errors.semester = 'El semestre debe ser un número entre 1 y 10';
+        }
+    }
+
+    return errors;
+};
+
+export const processEditSubjectFormData = (formData) => {
+    return {
+        name_subject: formData.name_subject.trim(),
+        semester: parseInt(formData.semester)
+    };
+};
