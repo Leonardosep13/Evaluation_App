@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useAuth } from "./useAuth";
-import { getSubjectsApi, createSubjectApi, deleteSubjectApi} from "../api/subject";
+import { getSubjectsApi, createSubjectApi, deleteSubjectApi, updateSubjectApi} from "../api/subject";
 
 export function useSubject() {
     const [loading, setLoading] = useState(false);
@@ -51,6 +51,20 @@ export function useSubject() {
         }
     };
 
+    const updateSubject = async (subjectId, formValue) => {
+        try{
+            setLoading(true);
+            setError(null);
+            const response = await updateSubjectApi(auth.token.access, subjectId, formValue);
+            setLoading(false);
+            return response;
+        }
+        catch (error){
+            setError(error);
+            setLoading(false);
+            throw error;
+        }
+    };
 
 
     return {
@@ -60,6 +74,7 @@ export function useSubject() {
         getSubjects,
         createSubject,
         deleteSubject,
+        updateSubject,
     };
 
 }
