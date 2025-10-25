@@ -45,7 +45,7 @@ function BasicModal(props) {
               onClick={handleActionClick}
               disabled={loading}
               type="submit"
-              form="teacher-form"
+              form="form"
             >
               {loading ? (
                 <>
