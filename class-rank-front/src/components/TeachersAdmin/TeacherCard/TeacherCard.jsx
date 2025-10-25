@@ -19,10 +19,8 @@ export function TeacherCard(props) {
             });
             
             if (confirmDelete) {
-                // Intentar eliminar el usuario
                 await onDeleteUser(userId);
                 
-                // Si llegamos aquí, la eliminación fue exitosa
                 SuccessAlert(
                     'Profesor eliminado',
                     'El profesor ha sido eliminado exitosamente.',
@@ -32,7 +30,6 @@ export function TeacherCard(props) {
         } catch (error) {
             console.error('Error al eliminar profesor:', error);
             
-            // Analizar el tipo de error para mostrar un mensaje más específico
             let errorMessage = 'Error al eliminar el profesor. Por favor, inténtalo de nuevo.';
             
             if (error.detail) {
