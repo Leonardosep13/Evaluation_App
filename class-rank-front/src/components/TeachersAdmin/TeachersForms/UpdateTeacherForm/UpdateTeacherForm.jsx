@@ -10,7 +10,8 @@ import './UpdateTeacherForm.css';
 
 import { useUser } from '../../../../hooks/useUser';
 
-export function UpdateTeacherForm({ teacher, onSuccess, onCancel }) {
+export function UpdateTeacherForm(props) {
+    const { teacher, onCancel, onSuccess } = props;
     const { updateUser, loading, error } = useUser();
     const [formData, setFormData] = useState({
         first_name: '',

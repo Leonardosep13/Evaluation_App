@@ -9,7 +9,7 @@ import {
 import './CreateTeacherForm.css';
 
 export function CreateTeacherForm(props) {
-    const { onSubmit, loading, error, teacher } = props;
+    const { onSubmit, loading, error } = props;
     const [formData, setFormData] = useState({
         first_name: '',
         last_name: '',
@@ -67,7 +67,7 @@ export function CreateTeacherForm(props) {
     };
 
     return (
-        <Form onSubmit={handleSubmit} id="teacher-form" className="teacher-form">
+        <Form onSubmit={handleSubmit} id="form" className="teacher-form">
             {error && (
                 <Alert variant="danger" className="mb-3">
                     <i className="bi bi-exclamation-triangle me-2"></i>
