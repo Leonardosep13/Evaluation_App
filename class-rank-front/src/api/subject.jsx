@@ -69,3 +69,27 @@ export async function deleteSubjectApi(token, subjectId) {
         throw error;
     }
 }
+
+export async function updateSubjectApi(token, subjectId, formValue) {
+    try{
+        const url = `${BASE_API}/academics/subjects/${subjectId}/`;
+        const params = {
+            method: "PUT",
+            headers: {
+                "content-type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(formValue),
+        };
+        const response = await fetch(url, params);
+        if (response.status !== 200){
+            const result = await response.json();
+            throw result;
+        }
+        const result = await response.json();
+        return result;
+    }
+    catch (error){
+        throw error;
+    }
+}
