@@ -1,0 +1,99 @@
+.students-table {
+    font-size: 0.95rem;
+}
+
+.students-table th {
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-bottom: 2px solid #dee2e6;
+    vertical-align: middle;
+}
+
+.students-table td {
+    vertical-align: middle;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.student-row {
+    transition: all 0.2s ease-in-out;
+}
+
+.student-row:hover {
+    background-color: rgba(13, 110, 253, 0.05) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.student-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+    border: 1px solid #e9ecef;
+}
+
+.table-responsive {
+    border-radius: 0;
+}
+
+.students-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+@media (max-width: 768px) {
+    .students-table {
+        font-size: 0.85rem;
+    }
+    
+    .students-table th,
+    .students-table td {
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .student-avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Badge styling consistency */
+.badge {
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+}
+
+/* Card styling */
+.card {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.card-header {
+    border-radius: 12px 12px 0 0;
+    font-size: 1rem;
+}
+
+.card-footer {
+    border-radius: 0 0 12px 12px;
+    font-size: 0.85rem;
+}
+
+/* Loading and error states */
+.text-center.p-4 {
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Alternating row colors */
+.students-table tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.students-table tbody tr:nth-of-type(even) {
+    background-color: rgba(255, 255, 255, 1);
+}
