@@ -4,7 +4,7 @@ import { PageHeader, BasicModal } from '../components/common';
 import { TeacherCard} from '../components/TeachersAdmin/TeacherCard';
 import { CreateTeacherForm } from '../components/TeachersAdmin/TeachersForms/CreateTeacherForm';
 import { useUser } from '../hooks/useUser';
-import { SuccessAlert, ErrorAlert } from '../components/Alerts/GenericAlert';
+import { SuccessAlert, ErrorAlert } from '../components/Alerts/GenericAlert'
 
 export function Profesores() {
   const [showModal, setShowModal] = useState(false);
@@ -82,6 +82,7 @@ export function Profesores() {
             </Button>
           </Col>
         </Row>
+        
         <TeacherCard
           users={users}
           loading={loading}

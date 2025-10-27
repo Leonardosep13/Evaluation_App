@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { PageHeader } from '../components/common';
+import { useStudents } from '../hooks/useStudents';
+import { StudentsTable } from '../components/StudentsTable/StudentsTable';
 
 export function Students() {
+  const { students, loading, error, getStudents } = useStudents();
+
+  useEffect(() => {
+    getStudents();
+  }, []);
+
   return (
+  <div>
     <PageHeader
       icon="bi-people"
       title="Gestión de Estudiantes"
       cardTitle="Lista de Estudiantes"
-      description="Aquí se mostrará la lista de estudiantes y las opciones para gestionarlos."
     >
-      {/* Aquí irá el contenido de gestión de estudiantes */}
+      <StudentsTable
+        students={students}
+        loading={loading}
+        error={error}
+      />
     </PageHeader>
+  </div>
   );
 }
