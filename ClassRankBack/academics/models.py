@@ -36,11 +36,11 @@ class Subject(models.Model):
 
 
 class Section(models.Model):
-    term = models.CharField("Periodo", max_length=6)  # removí unique=True
+    term = models.CharField("Periodo", max_length=6)
     schedule_start = models.TimeField("Hora de inicio")
     schedule_end = models.TimeField("Hora de finalizacion")
-    classrooms = models.CharField("Salon", max_length=3, null=True)  # removí unique=True
-    # related_name='sections' -> subject.sections
+    classrooms = models.CharField("Salon", max_length=3, null=True)
+    max_score = models.FloatField("Calificacion maxima", default=100.0)
     subject = models.ForeignKey(
         Subject,
         on_delete=models.CASCADE,
