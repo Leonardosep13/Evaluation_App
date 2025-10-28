@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { PageHeader } from '../components/common';
 import { useStudents } from '../hooks/useStudents';
-import { StudentsTable } from '../components/StudentsTable/StudentsTable';
+import { StudentsTable } from '../components/StudentsAdmin/StudentsTable/StudentsTable';
 
 export function Students() {
-  const { students, loading, error, getStudents } = useStudents();
+  const { students, loading, error, getStudents, deleteStudents } = useStudents();
 
   useEffect(() => {
     getStudents();
