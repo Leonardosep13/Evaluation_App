@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getStudentsApi } from "../api/student";
+import { getStudentsApi, createStudentApi, deleteStudentApi } from "../api/student";
 import { useAuth } from "./useAuth";
 
 export function useStudents() {
@@ -21,10 +21,42 @@ export function useStudents() {
         }
     };
 
+    const createStudents = async (formValue) => {
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await createStudentApi(auth.token.access, formValue);
+            setLoading(false);
+            return response;
+        }
+        catch (error) { 
+            setError(error);
+            setLoading(false);
+            throw error;
+        }
+    };
+
+    const deleteStudents = async (studentId) => {
+        try{
+            setLoading(true);
+            setError(null);
+            const response = await deleteStudentApi(auth.token.access, studentId);
+            setLoading(false);
+            return response;
+        }
+        catch (error){
+            setError(error);
+            setLoading(false);
+            throw error;
+        }
+    };
+
     return {
         loading,
         error,
         students,
         getStudents,
+        createStudents,
+        deleteStudents,
     };
 }
