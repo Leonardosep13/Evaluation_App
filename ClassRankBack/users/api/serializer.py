@@ -9,6 +9,15 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'email_teacher', 'first_name', 'last_name', 'is_staff', 'password','is_active','is_superuser']
     
+    def _ensure_privileges(self, attrs):
+        request = self.context.get('request')
+        if not request or not request.user.is_superuser:
+            if 'is_superuser' in attrs:
+                attrs.pop('is_superuser', None)
+            if 'is_staff' in attrs and attrs['is_staff'] is True:
+                raise serializers.ValidationError('Operación no permitida')
+        return attrs
+    
     def validate_email_teacher(self, value):
         if not value or not value.strip():
             raise serializers.ValidationError('El email es requerido')

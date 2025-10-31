@@ -89,11 +89,10 @@ class UserApiViewSet(ModelViewSet):
                 {'error': 'Error al eliminar el profesor', 'details': str(e)},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        
-    
-class UserView(APIView):
+
+class CurrentUserApiView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         serializer = UserSerializer(request.user)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
