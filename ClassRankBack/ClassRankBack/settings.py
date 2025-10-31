@@ -13,21 +13,28 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 import datetime
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+# reading .env file
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-xto+o(gg5+dz8#r&log1a2&0z(%x_p#(g61s@u&s_17o$ks&s6'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost","127.0.0.1"])
 
 
 # Application definition
@@ -162,9 +169,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
 
 # CORS settings
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS", default=['http://localhost:5173','http://127.0.0.1:5173'])
 CORS_ALLOW_CREDENTIALS = True
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=160)
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=1)
 }

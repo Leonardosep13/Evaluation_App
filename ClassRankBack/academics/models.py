@@ -24,7 +24,7 @@ class Subject(models.Model):
         through='TeacherQualification',
         related_name='qualified_subjects',
         verbose_name='Profesores que imparten',
-        null=True,
+        blank=True
     )
 
     def __str__(self):
