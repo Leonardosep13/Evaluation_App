@@ -1,18 +1,16 @@
 import { useState } from "react";
 import { getStudentsApi, createStudentApi, deleteStudentApi } from "../api/student";
-import { useAuth } from "./useAuth";
 
 export function useStudents() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [students, setStudents] = useState(null);
-    const { auth } = useAuth();
 
     const getStudents = async () => {
         try {
             setLoading(true);
             setError(null);
-            const response = await getStudentsApi(auth.token.access);
+            const response = await getStudentsApi();
             setStudents(response);
             setLoading(false);
         } catch (error) {
@@ -25,7 +23,7 @@ export function useStudents() {
         try {
             setLoading(true);
             setError(null);
-            const response = await createStudentApi(auth.token.access, formValue);
+            const response = await createStudentApi(formValue);
             setLoading(false);
             return response;
         }
@@ -40,7 +38,7 @@ export function useStudents() {
         try{
             setLoading(true);
             setError(null);
-            const response = await deleteStudentApi(auth.token.access, studentId);
+            const response = await deleteStudentApi(studentId);
             setLoading(false);
             return response;
         }

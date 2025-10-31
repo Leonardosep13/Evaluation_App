@@ -11,7 +11,7 @@ export function LoginForm() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   
-  const { login, auth } = useAuth()
+  const { login } = useAuth()
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -21,21 +21,21 @@ export function LoginForm() {
     }))
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setError('')
-    
-    try {
-      const response = await loginApi(formData)
-      login(response)
-    } catch (error) {
-      setError('Error al iniciar sesión usuario o contraseña incorrectos')
-      console.error('Error en handleSubmit:', error)
-    } finally {
-      setLoading(false)
-    }
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setError("");
+
+  try {
+    await loginApi(formData);
+    await login();
+  } catch (error) {
+    setError("Error al iniciar sesión: usuario o contraseña incorrectos");
+    console.error("Error en handleSubmit:", error);
+  } finally {
+    setLoading(false);
   }
+};
 
   return (
     <div className="login-container">

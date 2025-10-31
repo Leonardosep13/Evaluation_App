@@ -1,14 +1,14 @@
 import { BASE_API } from "../utils/constants";
 
-export async function getSubjectsApi(token) {
+export async function getSubjectsApi() {
     try {
         const url = `${BASE_API}/academics/subjects/`;
         const params = {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
             },
+            credentials: "include",
         };
         const response = await fetch(url, params);
         if (response.status !== 200) {
@@ -24,15 +24,15 @@ export async function getSubjectsApi(token) {
     }
 }
 
-export async function createSubjectApi(token, formValue) {
+export async function createSubjectApi(formValue) {
     try{
         const url = `${BASE_API}/academics/subjects/`;
         const params = {
             method: "POST",
             headers: {
                 "content-type": "application/json",
-                Authorization: `Bearer ${token}`,
             },
+            credentials: "include",
             body: JSON.stringify(formValue),
         };
         const response = await fetch(url, params);
@@ -48,15 +48,15 @@ export async function createSubjectApi(token, formValue) {
     }
 }
 
-export async function deleteSubjectApi(token, subjectId) {
+export async function deleteSubjectApi(subjectId) {
     try{
         const url = `${BASE_API}/academics/subjects/${subjectId}/`;
         const params = {
             method: "DELETE",
             headers: {
                 "content-type": "application/json",
-                Authorization: `Bearer ${token}`,
             },
+            credentials: "include",
         };
         const response = await fetch(url, params);
         if (response.status !== 204){
@@ -70,15 +70,15 @@ export async function deleteSubjectApi(token, subjectId) {
     }
 }
 
-export async function updateSubjectApi(token, subjectId, formValue) {
+export async function updateSubjectApi(subjectId, formValue) {
     try{
         const url = `${BASE_API}/academics/subjects/${subjectId}/`;
         const params = {
             method: "PUT",
             headers: {
                 "content-type": "application/json",
-                Authorization: `Bearer ${token}`,
             },
+            credentials: "include",
             body: JSON.stringify(formValue),
         };
         const response = await fetch(url, params);

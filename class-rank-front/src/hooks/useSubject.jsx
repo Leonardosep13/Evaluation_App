@@ -1,18 +1,16 @@
 import { useState } from "react"
-import { useAuth } from "./useAuth";
 import { getSubjectsApi, createSubjectApi, deleteSubjectApi, updateSubjectApi} from "../api/subject";
 
 export function useSubject() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [subjects, setSubjects] = useState(null);
-    const { auth } = useAuth();
 
     const getSubjects = async () => {
         try {
             setLoading(true);
             setError(null);
-            const response = await getSubjectsApi(auth.token.access);
+            const response = await getSubjectsApi();
             setSubjects(response);
             setLoading(false);
         } catch (error) {
@@ -25,7 +23,7 @@ export function useSubject() {
         try {
             setLoading(true);
             setError(null);
-            const response = await createSubjectApi(auth.token.access, formValue);
+            const response = await createSubjectApi(formValue);
             setLoading(false);
             return response;
         }
@@ -40,7 +38,7 @@ export function useSubject() {
         try{
             setLoading(true);
             setError(null);
-            const response = await deleteSubjectApi(auth.token.access, subjectId);
+            const response = await deleteSubjectApi(subjectId);
             setLoading(false);
             return response;
         }
@@ -55,7 +53,7 @@ export function useSubject() {
         try{
             setLoading(true);
             setError(null);
-            const response = await updateSubjectApi(auth.token.access, subjectId, formValue);
+            const response = await updateSubjectApi(subjectId, formValue);
             setLoading(false);
             return response;
         }

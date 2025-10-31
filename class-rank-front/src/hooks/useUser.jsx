@@ -8,9 +8,9 @@ export function useUser() {
     const [users, setUsers] = useState(null);
     const { auth } = useAuth();
 
-    const getMeData = async (token) => {
+    const getMeData = async () => {
         try {
-            const response = await getMeApi(token);
+            const response = await getMeApi();
             return response;
         } catch (error) {
             throw error;
@@ -21,7 +21,7 @@ export function useUser() {
         try {
             setLoading(true);
             setError(null);
-            const response = await getUsersApi(auth.token.access);
+            const response = await getUsersApi();
             setUsers(response);
             setLoading(false);
         } catch (error) {
@@ -34,7 +34,7 @@ export function useUser() {
         try {
             setLoading(true);
             setError(null);
-            const response = await createUserApi(auth.token.access, formValue);
+            const response = await createUserApi(formValue);
             setLoading(false);
             return response;
         } catch (error) {
@@ -48,7 +48,7 @@ export function useUser() {
         try{
             setLoading(true);
             setError(null);
-            const response = await deleteUserApi(auth.token.access, userId);
+            const response = await deleteUserApi(userId);
             setLoading(false);
             return response;
         }
@@ -63,7 +63,7 @@ export function useUser() {
         try{
             setLoading(true);
             setError(null);
-            const response = await updateUserApi(auth.token.access, userId, formValue);
+            const response = await updateUserApi(userId, formValue);
             setLoading(false);
             return response;
         }

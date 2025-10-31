@@ -6,10 +6,10 @@ import { Sidebar } from '../../components'
 
 export function AdminLayout(props) {
     const { children } = props
-    const { auth } = useAuth();
+    const { user } = useAuth();
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
-    if (!auth) return <LoginAdmin/>;
+    if (!user) return <LoginAdmin/>;
 
     const toggleSidebar = () => {
         setSidebarCollapsed(!sidebarCollapsed);

@@ -1,95 +1,52 @@
-import React, { createContext, useEffect, useState, useCallback } from 'react';
-import { getToken, setToken, removeToken } from '../api/token';
-import { getMeApi } from '../api/user';
+import React, { createContext, useEffect, useState } from "react";
+import { getMeApi} from "../api/user";
 
 export const AuthContext = createContext({
-    user: null,
-    login: () => null,
-    logout: () => {},
+  user: null,
+  login: () => null,
+  logout: () => {},
+  isLoading: true,
 });
 
-export function AuthProvider(props) {
-    const { children } = props;
-    const [auth, setAuth] = useState(undefined);
-    const [isLoading, setIsLoading] = useState(true);
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-    const getMeData = useCallback(async (token) => {
-        try {
-            const me = await getMeApi(token);
-            return me;
-        } catch (error) {
-            console.error('Error getting user data:', error);
-            throw error;
-        }
-    }, []);
+  const login = async () => {
+    const me = await getMeApi();
+    setUser(me);
+  };
 
-    const login = async (token) => {
-        try {
-            setToken(token);
-            const me = await getMeData(token.access);
-            setAuth({ me, token });
-        } catch (error) {
-            console.error('Error during login:', error);
-            removeToken();
-            setAuth(null);
-            throw error;
-        }
+  const logout = async () => {
+    await fetch("http://127.0.0.1:8000/api/auth/logout/", {
+      method: "POST",
+      credentials: "include",
+    });
+    setUser(null);
+  };
+
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        setIsLoading(true);
+        const me = await getMeApi();
+        setUser(me);
+      } catch {
+        setUser(null);
+      } finally {
+        setIsLoading(false);
+      }
     };
+    checkSession();
+  }, []);
 
-    const logout = () => {
-        if (auth) {
-            removeToken();
-            setAuth(null);
-        }
-    };
+  const value = { user, login, logout, isLoading };
 
-    useEffect(() => {
-        const initializeAuth = async () => {
-            try {
-                setIsLoading(true);
-                const token = getToken();
-                
-                if (token) {
-                    const me = await getMeData(token.access);
-                    setAuth({ me, token });
-                } else {
-                    setAuth(null);
-                }
-            } catch (error) {
-                console.error('Error initializing auth:', error);
-                removeToken();
-                setAuth(null);
-            } finally {
-                setIsLoading(false);
-            }
-        };
+  if (isLoading) return <p>Cargando sesión...</p>;
 
-        initializeAuth();
-    }, []);
-
-    const valueContext = {
-        auth,
-        login,
-        logout,
-        isLoading,
-    };
-
-    if (isLoading) {
-        return (
-            <div className="d-flex justify-content-center align-items-center vh-100">
-                <div className="text-center">
-                    <div className="spinner-border text-primary" role="status">
-                        <span className="visually-hidden">Cargando...</span>
-                    </div>
-                    <p className="mt-2 text-muted">Verificando sesión...</p>
-                </div>
-            </div>
-        );
-    }
-
-    return (
-        <AuthContext.Provider value={valueContext}>
-            {children}
-        </AuthContext.Provider>
-    );
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
 }

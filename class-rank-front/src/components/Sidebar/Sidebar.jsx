@@ -5,7 +5,7 @@ import { useAuth } from '../../hooks/useAuth';
 import './Sidebar.css';
 
 export function Sidebar() {
-  const {logout, auth} = useAuth();
+  const {logout, user} = useAuth();
   const navigationItems = [
     {
       title: 'Profesores',
@@ -37,7 +37,7 @@ export function Sidebar() {
   return (
     <div className="sidebar bg-dark d-flex flex-column">
       <div className="sidebar-header p-3">
-        <h5 className="text-light mb-0">{auth.me.first_name}</h5>
+        <h5 className="text-light mb-0">{user.first_name}</h5>
       </div>
       <Nav className="flex-column sidebar-nav flex-grow-1">
         {navigationItems.map((item, index) => (

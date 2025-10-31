@@ -1,6 +1,6 @@
 import { BASE_API } from "../utils/constants";
 
-export async function getStudentsApi(token)
+export async function getStudentsApi()
 {
     try{
         const url = `${BASE_API}/academics/students/`;
@@ -8,8 +8,8 @@ export async function getStudentsApi(token)
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
             },
+            credentials: "include",
         };
         const response = await fetch(url, params);
         if (response.status !== 200) {
@@ -24,7 +24,7 @@ export async function getStudentsApi(token)
     }
 }
 
-export async function createStudentApi(token, formValue)
+export async function createStudentApi(formValue)
 {
     try{
         const url = `${BASE_API}/academics/students/`;
@@ -32,8 +32,8 @@ export async function createStudentApi(token, formValue)
             method: "POST",
             headers: {
                 "content-type": "application/json",
-                Authorization: `Bearer ${token}`,
             },
+            credentials: "include",
             body: JSON.stringify(formValue),
         };
         const response = await fetch(url, params);
@@ -50,7 +50,7 @@ export async function createStudentApi(token, formValue)
 
 }
 
-export async function deleteStudentApi(token, studentId)
+export async function deleteStudentApi(studentId)
 {
     try{
         const url = `${BASE_API}/academics/students/${studentId}/`;
@@ -58,8 +58,8 @@ export async function deleteStudentApi(token, studentId)
             method: "DELETE",
             headers: {
                 "content-type": "application/json",
-                Authorization: `Bearer ${token}`,
             },
+            credentials: "include",
         };
         const response = await fetch(url, params);
         if (response.status !== 204){

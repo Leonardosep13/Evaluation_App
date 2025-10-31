@@ -11,6 +11,7 @@ export async function loginApi(formValue) {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(formValue),
+            credentials: "include", 
     };
 
     const response = await fetch(url, params);
@@ -33,22 +34,24 @@ export async function loginApi(formValue) {
 
 }
 
-export async function getMeApi(token) {
+export async function getMeApi() {
     try {
         const url = `${BASE_API}/auth/me/`;
         const params = {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
             },
+            credentials: "include",
         };
 
         const response = await fetch(url, params);
 
         if (response.status === 403) {
-            throw new Error("No autorizado. Verifica tu token.");
+            throw new Error("No autorizado.");
         }
+
+        
 
         const result = await response.json();
         return result;
@@ -59,7 +62,7 @@ export async function getMeApi(token) {
     }
 }
 
-export async function getUsersApi(token)
+export async function getUsersApi()
 {
     try
     {
@@ -68,8 +71,8 @@ export async function getUsersApi(token)
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
             },
+            credentials: "include"
         };
 
         const response = await fetch(url, params);
@@ -82,7 +85,7 @@ export async function getUsersApi(token)
     }
 }
 
-export async function createUserApi(token, formValue)
+export async function createUserApi(formValue)
 {
     try{
         const url = `${BASE_API}/users/`;
@@ -90,9 +93,9 @@ export async function createUserApi(token, formValue)
             method: "POST",
             headers: {
                 "content-type": "application/json",
-                Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(formValue),
+            credentials: "include",
         };
         const response = await fetch(url, params);
 
@@ -108,7 +111,7 @@ export async function createUserApi(token, formValue)
     }
 }
 
-export async function deleteUserApi(token, userId)
+export async function deleteUserApi(userId)
 {
     try{
         const url = `${BASE_API}/users/${userId}/`;
@@ -116,8 +119,8 @@ export async function deleteUserApi(token, userId)
             method: "DELETE",
             headers: {
                 "content-type": "application/json",
-                Authorization: `Bearer ${token}`,
             },
+            credentials: "include",
         };
         const response = await fetch(url, params);
         
@@ -144,7 +147,7 @@ export async function deleteUserApi(token, userId)
     }
 }
 
-export async function updateUserApi(token, userId, formValue)
+export async function updateUserApi(userId, formValue)
 {
     try{
         const url = `${BASE_API}/users/${userId}/`;
@@ -152,9 +155,9 @@ export async function updateUserApi(token, userId, formValue)
             method: "PUT",
             headers: {
                 "content-type": "application/json",
-                Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(formValue),
+            credentials: "include",
         };
         const response = await fetch(url, params);
         if (response.status !== 200){
