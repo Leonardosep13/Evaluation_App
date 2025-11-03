@@ -20,9 +20,8 @@ export async function loginApi(formValue) {
         {
             throw new Error("Usuario o contraseña incorrectos");
         }
-        
-    const result = await response.json();
-    return result;
+        const result = await response.json();
+        return result;
     }
 
     catch (error) 
@@ -30,9 +29,29 @@ export async function loginApi(formValue) {
         console.error("Error al iniciar sesión:", error);
         throw error;
     }
-
-
 }
+
+export async function logoutApi() {
+    try {
+        const url = `${BASE_API}/auth/logout/`;
+        const params = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+        };
+        const response = await fetch(url, params);
+
+        if (response.status !== 200) {
+            throw new Error("Error al cerrar sesión");
+        }
+        return true;
+    } catch (error) {
+        throw error;
+    }
+}
+
 
 export async function getMeApi() {
     try {

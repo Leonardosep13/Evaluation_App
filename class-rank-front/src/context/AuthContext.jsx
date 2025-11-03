@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-import { getMeApi} from "../api/user";
+import { getMeApi, logoutApi} from "../api/user";
 
 export const AuthContext = createContext({
   user: null,
@@ -18,10 +18,7 @@ export function AuthProvider({ children }) {
   };
 
   const logout = async () => {
-    await fetch("http://127.0.0.1:8000/api/auth/logout/", {
-      method: "POST",
-      credentials: "include",
-    });
+    await logoutApi();
     setUser(null);
   };
 

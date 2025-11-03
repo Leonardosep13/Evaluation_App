@@ -8,17 +8,17 @@ from rest_framework.permissions import IsAuthenticated
 
 class LoginView(APIView):
     def post(self, request):
-        email = request.data.get('email_teacher')
+        email_teacher = request.data.get('email_teacher')
         password = request.data.get('password')
 
-        user = authenticate(request, username=email, password=password)
+        user = authenticate(request, username=email_teacher, password=password)
         if not user:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         refresh = RefreshToken.for_user(user)
         access_token = str(refresh.access_token)
 
-        response = Response(status=status.HTTP_200_OK)
+        response = Response({"message": "Login exitoso"}, status=status.HTTP_200_OK)
         response.set_cookie(
             key='access_token',
             value=access_token,
@@ -30,8 +30,7 @@ class LoginView(APIView):
         return response
 
 class LogoutView(APIView):
-    permission_classes = [IsAuthenticated]
     def post(self, request):
-        response = Response(status=status.HTTP_200_OK)
+        response = Response({"message": "Logout exitoso"}, status=status.HTTP_200_OK)
         response.delete_cookie('access_token')
         return response
