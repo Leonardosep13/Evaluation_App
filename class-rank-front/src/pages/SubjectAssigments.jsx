@@ -9,6 +9,7 @@ export function SubjectAssigments() {
       cardTitle="Lista de Asignacion de Asignaturas a Profesores"
       description="Aquí se mostrará la lista de profesores, sus asignaturas y las opciones para gestionarlas."
     >
+      
       {/* Aquí irá el contenido de gestión de asignaturas */}
     </PageHeader>
   )
