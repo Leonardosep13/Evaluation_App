@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getStudentsApi, createStudentApi, deleteStudentApi } from "../api/student";
+import { getStudentsApi, createStudentApi, deleteStudentApi, updateStudentApi } from "../api/student";
 
 export function useStudents() {
     const [loading, setLoading] = useState(false);
@@ -49,6 +49,21 @@ export function useStudents() {
         }
     };
 
+    const UpdateStudent = async (studentId, formValue) => {
+        try{
+            setLoading(true);
+            setError(null);
+            const response = await updateStudentApi(studentId, formValue);
+            setLoading(false);
+            return response;
+        }
+        catch (error){
+            setError(error);
+            setLoading(false);
+            throw error;
+        }
+    };
+
     return {
         loading,
         error,
@@ -56,5 +71,6 @@ export function useStudents() {
         getStudents,
         createStudents,
         deleteStudents,
+        UpdateStudent,
     };
 }
