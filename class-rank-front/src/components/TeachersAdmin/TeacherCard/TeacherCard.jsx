@@ -166,6 +166,21 @@ export function TeacherCard(props) {
                                         </div>
                                     </div>
                                 )}
+                                {!teacher.is_staff && (
+                                    <div className="mb-2">
+                                        <small className="text-muted">
+                                            <i className="bi bi-gear me-1"></i>
+                                            Permisos:
+                                        </small>
+                                        <div>
+                                            <Badge bg="primary" className="ms-1">
+                                                <i className="bi bi-tools me-1"></i>
+                                                Profesor
+                                            </Badge>
+                                        </div>
+
+                                    </div>
+                                )}
                             </Card.Body>
 
                             <Card.Footer className="bg-light border-0 d-flex justify-content-between align-items-center">

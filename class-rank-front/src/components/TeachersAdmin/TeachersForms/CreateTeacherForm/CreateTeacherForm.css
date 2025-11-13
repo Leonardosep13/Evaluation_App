@@ -1,7 +1,7 @@
 /* TeacherForm specific styles */
 .teacher-form {
-  max-height: 70vh;
-  overflow-y: auto;
+  /* No fixed height or overflow to avoid showing a scrollbar; let the container handle layout */
+  overflow: visible;
 }
 
 .teacher-form .form-control:focus {
