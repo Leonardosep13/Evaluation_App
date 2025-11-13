@@ -395,3 +395,99 @@ export const processEditSubjectFormData = (formData) => {
         semester: parseInt(formData.semester)
     };
 };
+
+// ========== STUDENT VALIDATION FUNCTIONS ==========
+
+export const validateStudentField = (name, value, formData = {}) => {
+    let error = '';
+
+    switch (name) {
+        case 'first_name':
+            if (!value || !value.trim()) {
+                error = 'El nombre es requerido';
+            } else if (value.trim().length < 2) {
+                error = 'El nombre debe tener al menos 2 caracteres';
+            } else if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/.test(value)) {
+                error = 'El nombre solo puede contener letras y espacios';
+            }
+            break;
+        case 'last_name':
+            if (!value || !value.trim()) {
+                error = 'Los apellidos son requeridos';
+            } else if (value.trim().length < 2) {
+                error = 'Los apellidos deben tener al menos 2 caracteres';
+            } else if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/.test(value)) {
+                error = 'Los apellidos solo pueden contener letras y espacios';
+            }
+            break;
+        case 'strikes':
+            if (value === null || value === undefined || value === '') {
+                error = 'Las faltas (strikes) son requeridas';
+            } else {
+                const n = parseInt(value);
+                if (isNaN(n) || n < 0) {
+                    error = 'Las faltas deben ser un número entero mayor o igual a 0';
+                }
+            }
+            break;
+    }
+
+    return error;
+};
+
+export const validateStudentForm = (formData) => {
+    const errors = {};
+
+    // first_name
+    if (!formData.first_name || !formData.first_name.trim()) {
+        errors.first_name = 'El nombre es requerido';
+    } else if (formData.first_name.trim().length < 2) {
+        errors.first_name = 'El nombre debe tener al menos 2 caracteres';
+    } else if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/.test(formData.first_name)) {
+        errors.first_name = 'El nombre solo puede contener letras y espacios';
+    }
+
+    // last_name
+    if (!formData.last_name || !formData.last_name.trim()) {
+        errors.last_name = 'Los apellidos son requeridos';
+    } else if (formData.last_name.trim().length < 2) {
+        errors.last_name = 'Los apellidos deben tener al menos 2 caracteres';
+    } else if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/.test(formData.last_name)) {
+        errors.last_name = 'Los apellidos solo pueden contener letras y espacios';
+    }
+
+    // strikes
+    if (formData.strikes === null || formData.strikes === undefined || String(formData.strikes).trim() === '') {
+        errors.strikes = 'Las materias reprobadas (strikes) son requeridas';
+    } else {
+        const n = parseInt(formData.strikes);
+        if (isNaN(n) || n < 0) {
+            errors.strikes = 'Las materias reprobadas deben ser un número entero mayor o igual a 0';
+        }
+    }
+
+    return errors;
+};
+
+export const processStudentFormData = (formData) => {
+    return {
+        first_name: formData.first_name.trim().replace(/\b\w/g, l => l.toUpperCase()),
+        last_name: formData.last_name.trim().replace(/\b\w/g, l => l.toUpperCase()),
+        strikes: parseInt(String(formData.strikes).trim()),
+    };
+};
+
+export const processStudentFieldValue = (name, value, type) => {
+    if (type === 'checkbox') return !!value;
+
+    switch (name) {
+        case 'strikes':
+            // keep as string for controlled inputs; conversion will happen on submit
+            return value;
+        case 'first_name':
+        case 'last_name':
+            return value;
+        default:
+            return value;
+    }
+};
