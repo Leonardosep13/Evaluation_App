@@ -9,7 +9,7 @@ export function AdminLayout(props) {
     const { user } = useAuth();
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
-    if (!user) return <LoginAdmin/>;
+    if (!user || user.detail) return <LoginAdmin/>;
 
     const toggleSidebar = () => {
         setSidebarCollapsed(!sidebarCollapsed);
