@@ -23,14 +23,14 @@ export function Sidebar() {
       icon: 'bi bi-people'
     },
     {
-      title: 'Secciones',
-      path: '/admin/sections',
-      icon: 'bi bi-diagram-3'
-    },
-    {
       title: 'Asignaciones de materias',
       path: '/admin/subject-assignments',
       icon: 'bi bi-bookmark-check'
+    },
+    {
+      title: 'Secciones',
+      path: '/admin/sections',
+      icon: 'bi bi-diagram-3'
     },
   ];
 
