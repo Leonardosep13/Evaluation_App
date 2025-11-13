@@ -8,7 +8,6 @@ from django.db import transaction
 from .serializer import (
     StudentSerializer, 
     SubjectSerializer, 
-    SubjectCreateSerializer,
     SectionSerializer, 
     EnrollmentSerializer, 
     TeacherQualificationSerializer
@@ -72,11 +71,7 @@ class EnrollmentApiViewSet(ModelViewSet):
 class SubjectApiViewSet(ModelViewSet):
     queryset = Subject.objects.all().order_by('semester','name_subject')
     permission_classes = [IsAdminUser]
-
-    def get_serializer_class(self):
-        if self.action in ['create', 'update', 'partial_update']:
-            return SubjectCreateSerializer
-        return SubjectSerializer
+    serializer_class = SubjectSerializer
 
     def create(self, request, *args, **kwargs):
         try:
