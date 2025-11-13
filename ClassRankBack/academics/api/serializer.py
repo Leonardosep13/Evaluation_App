@@ -5,12 +5,7 @@ from users.models import User
 import re
 from datetime import datetime
 
-class SubjectShortSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Subject
-        fields = ['id', 'name_subject', 'semester']
-
-class SubjectCreateSerializer(serializers.ModelSerializer):
+class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
         fields = ['id', 'name_subject', 'semester']
@@ -36,22 +31,7 @@ class SubjectCreateSerializer(serializers.ModelSerializer):
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ['id', 'code', 'first_name', 'last_name', 'strikes', 'special_attention']
-
-    def validate_code(self, value):
-        if value is None or value <= 0:
-            raise serializers.ValidationError('El código debe ser un número positivo')
-        
-        # Verificar que tenga exactamente 10 dígitos
-        if len(str(value)) != 10:
-            raise serializers.ValidationError('El código debe tener exactamente 10 dígitos')
-        
-        # Verificar unicidad si es una nueva instancia o si el código cambió
-        if self.instance is None or self.instance.code != value:
-            if Student.objects.filter(code=value).exists():
-                raise serializers.ValidationError('Ya existe un estudiante con este código')
-        
-        return value
+        fields = ['id', 'first_name', 'last_name', 'strikes']
 
     def validate_first_name(self, value):
         if not value or not value.strip():
@@ -88,7 +68,7 @@ class StudentSerializer(serializers.ModelSerializer):
 
 class TeacherQualificationSerializer(serializers.ModelSerializer):
     teacher = UserSerializer(read_only=True)
-    subject = SubjectShortSerializer(read_only=True)
+    subject = SubjectSerializer(read_only=True)
     teacher_id = serializers.IntegerField(write_only=True)
     subject_id = serializers.IntegerField(write_only=True)
 
@@ -129,14 +109,8 @@ class TeacherQualificationSerializer(serializers.ModelSerializer):
         )
         return qualification
 
-class SubjectSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Subject
-        fields = ['id', 'name_subject', 'semester']
-
-
 class SectionSerializer(serializers.ModelSerializer):
-    subject = SubjectShortSerializer(read_only=True)
+    subject = SubjectSerializer(read_only=True)
     subject_id = serializers.IntegerField(write_only=True)
     teacher_id = serializers.IntegerField(write_only=True, required=False, allow_null=True)
 
