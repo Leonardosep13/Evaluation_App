@@ -2,14 +2,12 @@ from django.db import models
 from django.conf import settings
 
 class Student(models.Model):
-    code = models.IntegerField("Codigo de estudiante", unique=True)
     first_name = models.CharField("Nombre", max_length=100)
     last_name = models.CharField("Apellidos", max_length=100)
-    special_attention = models.BooleanField("Requiere atencion especial", default=False)
     strikes = models.SmallIntegerField("Materias Reprobadas", default=0)
 
     def __str__(self):
-        return f"{self.code} {self.first_name} {self.last_name}"
+        return f"{self.first_name} {self.last_name}"
 
     class Meta:
         verbose_name = 'Estudiante'
