@@ -72,3 +72,28 @@ export async function deleteStudentApi(studentId)
         throw error;
     }
 }
+
+export async function updateStudentApi(studentId, formValue)
+{
+    try{
+        const url = `${BASE_API}/academics/students/${studentId}/`;
+        const params = {
+            method: "PUT",
+            headers: {
+                "content-type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify(formValue),
+        };
+        const response = await fetch(url, params);
+        if (response.status !== 200){
+            const result = await response.json();
+            throw result;
+        }
+        const result = await response.json();
+        return result;
+    }
+    catch (error){
+        throw error;
+    }
+}
