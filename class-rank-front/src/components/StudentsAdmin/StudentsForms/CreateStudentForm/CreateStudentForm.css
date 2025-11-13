@@ -1,0 +1,50 @@
+
+/* Student form styles, mirror teacher form look and feel */
+.student-form {
+	/* No fixed height or overflow to avoid showing a scrollbar; let the container handle layout */
+	overflow: visible;
+}
+
+.student-form .form-control:focus {
+	border-color: #0d6efd;
+	box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.student-form .form-check-input:checked {
+	background-color: #0d6efd;
+	border-color: #0d6efd;
+}
+
+.student-form .form-text {
+	font-size: 0.875rem;
+}
+
+/* Modal enhancements */
+.modal-header {
+	border-bottom: 2px solid #e9ecef;
+}
+
+.modal-footer {
+	border-top: 2px solid #e9ecef;
+}
+
+.btn-primary:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+	transition: all 0.2s ease;
+}
+
+.alert-success {
+	animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+	from {
+		opacity: 0;
+		transform: translateY(-20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
